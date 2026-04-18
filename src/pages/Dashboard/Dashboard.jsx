@@ -13,7 +13,7 @@ import {
 
 import styles from "./Dashboard.module.css";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://gaia-server-gayu.onrender.com");
 const notificationSound =
   typeof Audio !== "undefined" ? new Audio("/notification.mp3") : null;
 
@@ -46,7 +46,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadData();
-    // socket.on("box_created", loadData);
     socket.on("box_created", (data) => {
       if (!isMuted && notificationSound) {
         notificationSound
