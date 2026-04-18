@@ -6,12 +6,18 @@ import {
   Trash2,
   X,
   Weight,
-  MessageSquare,
   ChevronLeft,
   ChevronRight,
   Filter,
+  Download,
 } from "lucide-react";
-import { getBoxes, deleteBox, createBox, updateBox } from "../../api/boxes";
+import {
+  getBoxes,
+  deleteBox,
+  createBox,
+  updateBox,
+  exportBoxes,
+} from "../../api/boxes";
 import { api } from "../../api/client";
 import { Button } from "../../components/UI/Button/Button";
 import { SearchableSelect } from "../../components/UI/SearchableSelect/SearchableSelect";
@@ -71,6 +77,25 @@ export default function BoxesPage() {
     loadDicts();
   }, []);
 
+  const handleExport = async () => {
+    try {
+      const response = await exportBoxes(filters);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `boxes_report_${new Date().toISOString().split("T")[0]}.xlsx`,
+      );
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Export failed", error);
+      alert("Failed to export data. Please try again.");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -103,7 +128,6 @@ export default function BoxesPage() {
             placeholder="Select Receiver"
           />
           <BaseInput
-            icon={MessageSquare}
             placeholder="Add comment..."
             value={form.comment}
             onChange={(e) => setForm({ ...form, comment: e.target.value })}
@@ -175,6 +199,13 @@ export default function BoxesPage() {
             title="Clear all filters"
           >
             <X size={14} />
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleExport}
+            title="Export to Excel"
+          >
+            <Download size={14} /> Export Excel
           </Button>
         </div>
       </div>
