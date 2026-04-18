@@ -1,0 +1,59 @@
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Змінено для кращого контролю ліній */
+  background: white;
+}
+
+.table th {
+  background: #f8fafc;
+  padding: 10px 16px; /* Зменшено висоту */
+  text-align: left;
+  font-size: 11px; /* Компактний шрифт для заголовків */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table td {
+  padding: 8px 16px; /* Компактна висота рядка */
+  font-size: 13px; /* Зменшено розмір тексту */
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left; /* Усе ліворуч за замовчуванням */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #fcfcfd;
+}
+
+.table tr:hover td {
+  background-color: #f1f5f9 !important;
+}
+
+.tableCard {
+  background: #ffffff;
+  border-radius: 8px; /* Менші закруглення для строгішого вигляду */
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.empty {
+  padding: 60px;
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  background: #f8fafc;
+}
+
+.listSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

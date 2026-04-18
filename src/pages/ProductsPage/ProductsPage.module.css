@@ -1,0 +1,49 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 6px;
+}
+
+.header h2 {
+  font-weight: 800;
+  color: #1e1e2f;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.header p {
+  color: #64748b;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.idBadge {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.productName {
+  font-weight: 500;
+  color: #1e293b;
+}

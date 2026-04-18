@@ -1,0 +1,267 @@
+.screenWrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f7fa;
+  padding: 20px;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.brand h2 {
+  margin: 0;
+  color: #1e293b;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.dateBadge {
+  background: white;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  color: #6366f1;
+  font-size: 14px;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  /* flex: 1; */
+  min-height: 0;
+}
+
+/* KPI Section */
+.kpiSection {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 20px;
+}
+
+.miniCard {
+  background: white;
+  padding: 16px 24px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.cardData {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.iconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardLabel {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+.cardValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* Panel Styling */
+.panel {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.panelTitle {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #334155;
+}
+
+/* Recent Shipments List */
+.recentOrders {
+  grid-row: 2;
+}
+.scrollList {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0;
+  padding-right: 4px;
+}
+
+.miniRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 2px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.time {
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 12px;
+}
+.prodName {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 13px;
+  padding-right: 4px;
+}
+.recName {
+  font-size: 11px;
+  color: #009688;
+}
+.weight {
+  margin-left: auto;
+  font-weight: 800;
+  color: #6366f1;
+  font-size: 13px;
+}
+
+/* Receivers Analytics Grid (2 per row) */
+.receiversGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.receiverTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6366f1;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tableContainer {
+  flex: 1;
+}
+
+.modernTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 10px;
+}
+
+.modernTable th {
+  text-align: left;
+  color: #94a3b8;
+  font-weight: 600;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.modernTable td {
+  color: #334155;
+  border-bottom: 1px solid #f8fafc;
+}
+
+/* Rounded corners for the total row */
+.subTotalRow td {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #1e293b;
+  border-top: 1px solid #e2e8f0;
+}
+
+.subTotalRow td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.subTotalRow td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Scrollbar Styling */
+.scrollList::-webkit-scrollbar,
+.receiversGrid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollList::-webkit-scrollbar-thumb,
+.receiversGrid::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.soundButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: #6366f1;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+}
+
+.soundButton:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.soundButton:active {
+  transform: translateY(0);
+}
+
+.soundButton.muted {
+  color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.soundButton span {
+  width: 70px;
+  text-align: left;
+}
+
+td {
+  text-align: left;
+  padding-left: 2px;
+}
