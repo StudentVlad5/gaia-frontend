@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 export default function MainLayout({ children }) {
@@ -16,7 +17,9 @@ export default function MainLayout({ children }) {
           overflowY: "auto",
         }}
       >
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>{children}</div>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          {children || <Outlet />}
+        </div>
       </main>
     </div>
   );
