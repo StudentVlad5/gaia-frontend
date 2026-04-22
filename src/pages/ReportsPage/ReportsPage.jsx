@@ -254,7 +254,6 @@ export default function ReportsPage() {
 
         <div className={styles.chartWrapper}>
           {data.days.map((day, idx) => {
-            // Знаходимо максимальну вагу для розрахунку висоти стовпчика (100%)
             const maxWeight = Math.max(
               ...data.days.map((d) => Number(d.total_weight)),
             );
