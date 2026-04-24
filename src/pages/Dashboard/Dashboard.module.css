@@ -126,7 +126,9 @@
   padding: 2px 0;
   border-bottom: 1px solid #f1f5f9;
 }
-
+.info {
+  text-align: left;
+}
 .time {
   color: #94a3b8;
   font-weight: 700;
@@ -147,6 +149,7 @@
   font-weight: 800;
   color: #6366f1;
   font-size: 13px;
+  min-width: 50px;
 }
 
 /* Receivers Analytics Grid (2 per row) */
