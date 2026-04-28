@@ -10,6 +10,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
 import UsersPage from "../pages/Auth/UsersPage";
+import WarehousePage from "../pages/Warehouse/WarehousePage";
 import { AuthProvider } from "../auth/AuthContext";
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 import { AdminRoute } from "../auth/AdminRoute";
@@ -30,6 +31,7 @@ export default function AppRouter() {
         >
           <Route path="/" element={<Dashboard />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/warehouse" element={<WarehousePage />} />
 
           <Route element={<AdminRoute />}>
             <Route path="/users" element={<UsersPage />} />

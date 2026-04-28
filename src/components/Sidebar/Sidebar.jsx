@@ -1,11 +1,25 @@
 import { NavLink } from "react-router-dom";
-import { Activity, Package, Tag, User, BarChart3, Users } from "lucide-react";
+import {
+  Activity,
+  Package,
+  Tag,
+  User,
+  BarChart3,
+  Users,
+  Warehouse,
+} from "lucide-react";
 import LogoutButton from "../LogoutButton/LogoutButton";
 import { useAuth } from "../../auth/AuthContext";
 import styles from "./Sidebar.module.css";
 
 const menuItems = [
   { path: "/", label: "Live", icon: Activity, roles: ["USER", "ADMIN"] },
+  {
+    path: "/warehouse",
+    label: "Warehouse",
+    icon: Warehouse,
+    roles: ["USER", "ADMIN"],
+  },
   { path: "/boxes", label: "Boxes", icon: Package, roles: ["ADMIN"] },
   { path: "/products", label: "Products", icon: Tag, roles: ["ADMIN"] },
   { path: "/receivers", label: "Receivers", icon: User, roles: ["ADMIN"] },
