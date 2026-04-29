@@ -1,276 +1,326 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import {
   DndContext,
   useDraggable,
   useDroppable,
   DragOverlay,
 } from "@dnd-kit/core";
-
+import { motion, AnimatePresence } from "framer-motion"; // 'motion' is used below in motion.div
+import { SearchableSelect } from "../../components/UI/SearchableSelect/SearchableSelect";
+import * as api from "../../api/containers";
+import styles from "./Warehouse.module.css";
+import { Plus, Settings2, Trash2, Box } from "lucide-react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://gaia-server-gayu.onrender.com");
 
-// 🎯 mapping
-const productTypeMap = {
-  trausers: "blue",
-  jackets: "blue",
-  leather: "gray",
-  wool: "gray",
-  shirts: "gray",
-  dresses: "gray",
-  sport: "gray",
-  belt: "small",
-  bags: "small",
-  hats: "small",
-  "scarf/headscarf": "small",
+const CATEGORY_GROUPS = {
+  blue: ["trausers", "jackets"],
+  gray: ["leather", "wool", "shirts", "dresses", "trikotage", "sport"],
+  small: ["belt", "bags", "hats", "scarf"],
 };
 
-const products = Object.keys(productTypeMap);
+export default function Warehouse() {
+  const [state, setState] = useState({
+    containers: [],
+    settings: [],
+    factories: [],
+  });
+  const [selectedFactoryId, setSelectedFactoryId] = useState("");
+  const [activeId, setActiveId] = useState(null);
 
-// 🎨 стилі
-const typeColors = {
-  blue: "#2563eb",
-  gray: "#6b7280",
-  small: "#92400e",
-};
+  const loadData = useCallback(async () => {
+    try {
+      const { data } = await api.getContainers();
+      const factories = await api.getFactories();
+      setState({
+        containers: data.grouped || [],
+        settings: data.settings || [],
+        factories: factories.data || [],
+      });
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  }, []);
 
-// 🧲 DRAG ITEM
-const ProductItem = ({ id }) => {
-  const { attributes, listeners, setNodeRef } = useDraggable({ id });
+  useEffect(() => {
+    loadData();
+    socket.on("containers:update", loadData);
+    return () => socket.off("containers:update");
+  }, [loadData]); // loadData is now stable due to useCallback
+
+  const handleAddFactory = async () => {
+    const name = prompt("Enter new factory name:");
+    if (name?.trim()) {
+      await api.addFactory(name.trim());
+      loadData();
+    }
+  };
+
+  const handleEditFactory = async () => {
+    if (!selectedFactoryId) return alert("Select a factory first!");
+    const currentFactory = state.factories.find(
+      (f) => f.id === selectedFactoryId || f._id === selectedFactoryId,
+    );
+
+    const newName = prompt(
+      "Enter new factory name:",
+      currentFactory?.name || "",
+    );
+    if (newName?.trim()) {
+      await api.updateFactory(selectedFactoryId, newName.trim());
+      loadData();
+    }
+  };
+
+  const handleUnload = async (product, factory, ids) => {
+    if (!ids || ids.length === 0) return;
+    const idToDelete = ids[0];
+    try {
+      await api.removeContainer(idToDelete);
+      loadData();
+    } catch (err) {
+      console.error("Failed to delete container:", err);
+    }
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (!over) {
+      setActiveId(null);
+      return;
+    }
+
+    if (!selectedFactoryId) {
+      alert("Please, choose the factory!");
+      setActiveId(null);
+      return;
+    }
+
+    const product = active.id;
+    const zoneType = over.id;
+
+    const currentSettings = state.settings.find((s) => s.type === zoneType);
+    const total = currentSettings?.total || 0;
+    const used = state.containers
+      .filter((c) => c.type === zoneType)
+      .reduce((acc, curr) => acc + parseInt(curr.count), 0);
+
+    if (total - used <= 0) {
+      alert("No free space in this zone!");
+      setActiveId(null);
+      return;
+    }
+
+    if (CATEGORY_GROUPS[zoneType].includes(product)) {
+      socket.emit("container:add", {
+        product,
+        type: zoneType,
+        factoryId: selectedFactoryId,
+      });
+    } else {
+      alert("The wrong zone!");
+    }
+
+    setActiveId(null);
+  };
+
+  return (
+    <DndContext
+      onDragStart={(e) => setActiveId(e.active.id)}
+      onDragEnd={handleDragEnd}
+    >
+      <div className={styles.screenWrapper}>
+        <header className={styles.header}>
+          <div className={styles.brand}>
+            <h2>Gaia Warehouse</h2>
+          </div>
+          <div className={styles.controls}>
+            <div className={styles.selectWrapper}>
+              <SearchableSelect
+                options={state.factories}
+                value={selectedFactoryId}
+                onChange={setSelectedFactoryId}
+                placeholder="Select Factory..."
+              />
+              {selectedFactoryId && (
+                <button onClick={handleEditFactory} className={styles.editBtn}>
+                  <Settings2 size={16} />
+                </button>
+              )}
+            </div>
+            <button onClick={handleAddFactory} className={styles.actionBtn}>
+              <Plus size={18} /> Factory
+            </button>
+          </div>
+        </header>
+
+        <div className={styles.mainGrid}>
+          {Object.keys(CATEGORY_GROUPS).map((color) => {
+            // Рахуємо вільне місце заздалегідь для кожної колонки
+            const total =
+              state.settings.find((s) => s.type === color)?.total || 0;
+            const used = state.containers
+              .filter((c) => c.type === color)
+              .reduce((acc, curr) => acc + parseInt(curr.count), 0);
+            const free = total - used;
+
+            return (
+              <div key={color} className={styles.zoneColumn}>
+                <DroppableZone type={color} free={free} total={total} />
+
+                {/* Гнучка секція з продуктами */}
+                <div className={`${styles.productSource} ${styles[color]}`}>
+                  {CATEGORY_GROUPS[color].map((id) => (
+                    <DraggableProduct
+                      key={id}
+                      id={id}
+                      disabled={free <= 0} // Блокуємо, якщо 0
+                    />
+                  ))}
+                </div>
+
+                {/* Секція аналітики */}
+                <div className={styles.analyticsSection}>
+                  <h4 className={styles.sectionLabel}>
+                    <Box size={14} style={{ marginRight: "8px" }} />
+                    Filled {color}
+                  </h4>
+                  <ZoneAnalytics
+                    type={color}
+                    groupedData={state.containers}
+                    onUnload={handleUnload}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <DragOverlay>
+        {activeId ? (
+          <div className={styles.draggingItem}>{activeId}</div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
+  );
+}
+
+// Destructure onUnload from props
+function ZoneAnalytics({ type, groupedData, onUnload }) {
+  const productsInZone = useMemo(() => {
+    const zoneItems = groupedData.filter((item) => item.type === type);
+    const productMap = {};
+
+    zoneItems.forEach((item) => {
+      if (!productMap[item.product]) {
+        productMap[item.product] = { total: 0, factories: [] };
+      }
+      const count = parseInt(item.count);
+      productMap[item.product].total += count;
+      productMap[item.product].factories.push({
+        name: item.factory || "Unknown",
+        count: count,
+        ids: item.ids,
+      });
+    });
+
+    return Object.entries(productMap).sort((a, b) => b[1].total - a[1].total);
+  }, [groupedData, type]);
+
+  return (
+    <AnimatePresence>
+      {productsInZone.map(([productName, data]) => (
+        <motion.div layout key={productName} className={styles.miniTableCard}>
+          <div className={styles.miniTableHeader}>
+            <span>{productName}</span>
+            <span className={styles.totalBadge}>{data.total}</span>
+          </div>
+          {data.factories.map((f, idx) => (
+            <div key={`${f.name}-${idx}`} className={styles.tableRow}>
+              <span>{f.name}</span>
+              <div className={styles.rowActions}>
+                <span>{f.count} pcs</span>
+                <button
+                  onClick={() => onUnload(productName, f.name, f.ids)}
+                  className={styles.unloadBtn}
+                >
+                  <Trash2 size={12} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      ))}
+    </AnimatePresence>
+  );
+}
+
+function DroppableZone({ type, free, total }) {
+  const { setNodeRef, isOver } = useDroppable({ id: type });
+
+  // ЛОГІКА КОЛЬОРІВ
+  let statusColor = "inherit"; // дефолтний
+  if (free === 2) statusColor = "#f97316"; // помаранчевий
+  if (free <= 1) statusColor = "#ef4444"; // червоний (якщо 1 або 0)
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${styles.zoneHeader} ${isOver ? styles.isOver : ""}`}
+      style={{ borderColor: statusColor }}
+    >
+      <div className={styles.zoneMeta}>
+        <span
+          className={styles.zoneName}
+          style={{ color: free <= 2 ? statusColor : "white" }}
+        >
+          {type} Zone
+        </span>
+        <button
+          className={styles.settingsBtn}
+          onClick={() => {
+            const val = prompt(`New total capacity for ${type}:`);
+            if (val) api.updateLimit(type, val);
+          }}
+        >
+          <Settings2 size={14} />
+        </button>
+      </div>
+      <div className={styles.zoneStats}>
+        <span
+          className={styles.freeCount}
+          style={{ fontWeight: free <= 2 ? "bold" : "normal" }}
+        >
+          Free {free}
+        </span>
+        <span className={styles.totalCount}>from {total}</span>
+      </div>
+    </div>
+  );
+}
+
+function DraggableProduct({ id, disabled }) {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id,
+    disabled: disabled,
+  });
 
   return (
     <div
       ref={setNodeRef}
       {...listeners}
       {...attributes}
+      className={`${styles.productItem} ${disabled ? styles.disabled : ""}`}
       style={{
-        padding: 10,
-        marginBottom: 8,
-        background: "#111827",
-        color: "white",
-        borderRadius: 6,
-        cursor: "grab",
+        opacity: disabled ? 0.4 : 1,
+        cursor: disabled ? "not-allowed" : "grab",
+        fontSize: "12px",
+        padding: "8px",
       }}
     >
       {id}
     </div>
-  );
-};
-
-// 📦 КЛІТИНКА КОНТЕЙНЕРА
-const Cell = ({ item, type, onRemove, isPreview }) => {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      style={{
-        height: 80,
-        borderRadius: 10,
-        background: item ? "#1f2937" : "#111827",
-        border: `2px solid ${typeColors[type]}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "white",
-        fontSize: 12,
-        cursor: item ? "pointer" : "default",
-        opacity: isPreview ? 0.6 : 1,
-      }}
-      onClick={() => item && onRemove(item.id)}
-    >
-      {item ? (
-        <div>
-          <div>{item.product}</div>
-          <div style={{ fontSize: 10, opacity: 0.7 }}>{item.factory}</div>
-        </div>
-      ) : (
-        "+"
-      )}
-    </motion.div>
-  );
-};
-
-// 🧲 GRID
-const GridZone = ({ type, containers, total, onRemove, preview }) => {
-  const { setNodeRef, isOver } = useDroppable({ id: type });
-
-  const free = total - containers.length;
-
-  const getStatusColor = () => {
-    if (free <= 1) return "red";
-    if (free <= 3) return "orange";
-    return typeColors[type];
-  };
-
-  const cells = [...containers];
-
-  // додаємо пусті
-  while (cells.length < total) {
-    cells.push(null);
-  }
-
-  return (
-    <div style={{ flex: 1 }}>
-      <h3 style={{ color: getStatusColor() }}>
-        {type.toUpperCase()} ({free})
-      </h3>
-
-      <div
-        ref={setNodeRef}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(80px,1fr))",
-          gap: 10,
-          padding: 10,
-          background: "#020617",
-          borderRadius: 12,
-        }}
-      >
-        {cells.map((item, i) => (
-          <Cell
-            key={item?.id || i}
-            item={item}
-            type={type}
-            onRemove={onRemove}
-            isPreview={isOver && !item && preview}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default function WarehouseGrid() {
-  const [state, setState] = useState({
-    containers: [],
-    settings: [],
-  });
-
-  const [active, setActive] = useState(null);
-  const [factory, setFactory] = useState("Togo");
-
-  useEffect(() => {
-    fetch("http://localhost:5000/containers/state")
-      .then((r) => r.json())
-      .then(setState);
-
-    socket.on("containers:update", setState);
-
-    return () => socket.off("containers:update");
-  }, []);
-
-  const getContainers = (type) =>
-    state.containers.filter((c) => c.type === type);
-
-  const getTotal = (type) =>
-    state.settings.find((s) => s.type === type)?.total || 0;
-
-  const handleDragStart = (event) => {
-    setActive(event.active.id);
-  };
-
-  const handleDragEnd = ({ over }) => {
-    if (!over || !active) return;
-
-    const type = productTypeMap[active];
-
-    if (type !== over.id) return;
-
-    socket.emit("container:add", {
-      product: active,
-      type,
-      factory,
-    });
-
-    setActive(null);
-  };
-
-  const remove = (id) => {
-    socket.emit("container:remove", id);
-  };
-
-  // ⌨️ shortcuts
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === "1") setFactory("Togo");
-      if (e.key === "2") setFactory("Viva");
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
-
-  return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div style={{ display: "flex", height: "100vh" }}>
-        {/* LEFT */}
-        <div style={{ width: 250, padding: 10 }}>
-          <h3>Products</h3>
-
-          <div style={{ marginBottom: 10 }}>
-            Factory:
-            <select
-              value={factory}
-              onChange={(e) => setFactory(e.target.value)}
-            >
-              <option>Togo</option>
-              <option>Viva</option>
-            </select>
-          </div>
-
-          {products.map((p) => (
-            <ProductItem key={p} id={p} />
-          ))}
-        </div>
-
-        {/* RIGHT */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            gap: 10,
-            padding: 10,
-          }}
-        >
-          <GridZone
-            type="blue"
-            containers={getContainers("blue")}
-            total={getTotal("blue")}
-            onRemove={remove}
-            preview={active}
-          />
-
-          <GridZone
-            type="gray"
-            containers={getContainers("gray")}
-            total={getTotal("gray")}
-            onRemove={remove}
-            preview={active}
-          />
-
-          <GridZone
-            type="small"
-            containers={getContainers("small")}
-            total={getTotal("small")}
-            onRemove={remove}
-            preview={active}
-          />
-        </div>
-      </div>
-
-      {/* 🧲 DRAG PREVIEW */}
-      <DragOverlay>
-        {active && (
-          <div
-            style={{
-              padding: 10,
-              background: "#111827",
-              color: "white",
-              borderRadius: 6,
-            }}
-          >
-            {active}
-          </div>
-        )}
-      </DragOverlay>
-    </DndContext>
   );
 }

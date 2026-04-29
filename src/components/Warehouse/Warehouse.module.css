@@ -1,0 +1,174 @@
+.screenWrapper {
+  background-color: #f1f5f9;
+  min-height: 100vh;
+  padding: 2rem;
+  color: #334155;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* Zone Columns */
+.zoneColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.zoneHeader {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.isOver {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.zoneMeta {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.zoneStats {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.freeCount {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.totalCount {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+/* Product Sources */
+.productSource {
+  padding: 1rem;
+  border-radius: 16px;
+  min-height: 340px;
+}
+
+.blue {
+  background-color: #3962e8;
+}
+.gray {
+  background-color: #bec2c2;
+}
+.small {
+  background-color: #fef3c7;
+}
+
+.productItem {
+  background: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: grab;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Analytics */
+.miniTableCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #e2e8f0;
+}
+
+.miniTableHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.totalBadge {
+  background: #1e293b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 0.7rem;
+}
+
+.tableRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  padding: 4px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.rowActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.qtyText {
+  font-weight: 600;
+}
+
+.unloadBtn {
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
+.actionBtn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.settingsBtn {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+}

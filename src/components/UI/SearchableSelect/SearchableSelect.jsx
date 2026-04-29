@@ -3,7 +3,7 @@ import { ChevronDown, Search } from "lucide-react";
 import styles from "./SearchableSelect.module.css";
 
 export const SearchableSelect = ({
-  options,
+  options = [],
   value,
   onChange,
   placeholder,
@@ -24,7 +24,10 @@ export const SearchableSelect = ({
 
   const filteredOptions = useMemo(() => {
     return options
-      .filter((opt) => opt.name.toLowerCase().includes(search.toLowerCase()))
+      .filter((opt) => {
+        const nameToSearch = opt?.name || "";
+        return nameToSearch.toLowerCase().includes(search.toLowerCase());
+      })
       .slice(0, 15);
   }, [options, search]);
 
@@ -37,7 +40,9 @@ export const SearchableSelect = ({
       {label && <label className={styles.label}>{label}</label>}
       <div className={styles.selectBox} onClick={() => setIsOpen(!isOpen)}>
         <span className={selectedOption ? styles.value : styles.placeholder}>
-          {selectedOption ? selectedOption.name : placeholder}
+          {selectedOption
+            ? selectedOption.name || "Unnamed Factory"
+            : placeholder}
         </span>
         <ChevronDown size={16} className={isOpen ? styles.rotate : ""} />
       </div>
@@ -75,7 +80,11 @@ export const SearchableSelect = ({
                   setSearch("");
                 }}
               >
-                {opt.name}
+                {opt.name || (
+                  <span style={{ color: "#94a3b8", fontStyle: "italic" }}>
+                    Unnamed (ID: {opt.id})
+                  </span>
+                )}
               </div>
             ))}
           </div>
