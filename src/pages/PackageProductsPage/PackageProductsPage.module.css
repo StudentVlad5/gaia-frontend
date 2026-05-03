@@ -1,0 +1,99 @@
+/* Копіюємо ваші стилі .container, .header, @keyframes */
+
+.formCard {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.inputGroup label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.inputGroup input,
+.inputGroup select {
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+}
+
+.submitBtn {
+  background: #1e1e2f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cancelBtn {
+  background: transparent;
+  color: #64748b;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.inlineForm {
+  display: flex;
+  align-items: flex-end; /* Вирівнює інпути та кнопку по нижній лінії */
+  gap: 12px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Для мобільних пристроїв */
+}
+
+.inputField {
+  flex: 2; /* Назва продукту займає більше місця */
+  min-width: 200px;
+}
+
+.selectField {
+  flex: 1;
+  min-width: 150px;
+}
+
+.buttonField {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 2px; /* Коригування під висоту BaseInput */
+}
+
+/* Опціонально: щоб кнопка за висотою була як інпут */
+.buttonField button {
+  height: 42px;
+  white-space: nowrap;
+}
+.inlineForm {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}

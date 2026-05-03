@@ -1,0 +1,136 @@
+.screenWrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.serverStatus {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* KPI SECTION */
+.kpiSection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.miniCard {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.kpiLabel {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.kpiValue {
+  font-size: 24px;
+  color: #1e293b;
+}
+
+/* GRID & PANELS */
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.panelFull {
+  grid-column: 1 / -1;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.panel {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* TABLES */
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+.modernTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.modernTable th {
+  text-align: left;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.modernTable td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.categoryBadge {
+  font-weight: 700;
+  color: #6366f1;
+}
+
+.num {
+  text-align: right;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.dangerText {
+  color: #ef4444;
+  font-weight: 700;
+}
+.successText {
+  color: #10b981;
+  font-weight: 700;
+}
+.bold {
+  font-weight: 600;
+  color: #1e293b;
+}
+.dateCell {
+  color: #64748b;
+  font-size: 12px;
+}
+
+@media (max-width: 1200px) {
+  .dashboardGrid {
+    grid-template-columns: 1fr;
+  }
+}

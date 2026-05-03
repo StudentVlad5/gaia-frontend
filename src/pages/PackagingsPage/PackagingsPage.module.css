@@ -1,0 +1,225 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background-color: #f1f5f9; /* легкий фон для контрасту з картками */
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* ІНЛАЙН ФОРМА */
+.card {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.inlineForm {
+  display: grid;
+  /* Адаптивна сітка: Продукт, Фабрика, Вага, Інфо, Кнопки */
+  grid-template-columns: 1.5fr 1fr 150px 180px auto;
+  gap: 16px;
+  align-items: flex-end; /* Важливо: вирівнює кнопку по нижньому краю інпутів */
+}
+
+/* Додаткова стилізація для внутрішніх елементів форми */
+.liveInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px dashed #e2e8f0;
+  font-size: 13px;
+  height: 38px; /* Підгонка під висоту інпутів */
+  justify-content: center;
+}
+
+/* ФІЛЬТРИ */
+.filterSection {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.filterRow {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 160px 160px auto auto;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ТАБЛИЦЯ */
+.tableWrapper {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #334155;
+}
+
+.reportTable th {
+  background: #f8fafc;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+  color: #475569;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.reportTable td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.reportTable tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* ТЕКСТОВІ АКЦЕНТИ */
+.num {
+  text-align: right;
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-weight: 600;
+}
+
+.dateCell {
+  color: #64748b;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.bold {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.successText {
+  color: #10b981;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dangerText {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* СТАТУСИ ТА КНОПКИ */
+.statusCell {
+  display: flex;
+  align-items: center;
+}
+
+.completedBadge {
+  background: #ecfdf5;
+  color: #059669;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #d1fae5;
+}
+
+.actionsCol {
+  width: 100px;
+  text-align: right;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #94a3b8;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.iconBtn:hover {
+  background: #f1f5f9;
+  color: #3b82f6;
+}
+
+.iconBtn.danger:hover {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+/* ПАГІНАЦІЯ */
+.paginationBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.pageStats {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pageNumber {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+  padding: 0 12px;
+}
+
+/* TOTAL ROW */
+.totalRow {
+  background: #f8fafc !important;
+  font-weight: 700;
+}
+
+.totalRow td {
+  border-top: 2px solid #e2e8f0;
+  padding: 14px 12px;
+}

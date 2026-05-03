@@ -9,6 +9,7 @@ export const DataTable = ({
   currentPage,
   setCurrentPage,
   itemsPerPage = 5,
+  columns = [{ key: "name", label: "Name" }],
 }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -29,7 +30,10 @@ export const DataTable = ({
         <thead>
           <tr>
             <th style={{ width: "80px" }}>ID</th>
-            <th>Name</th>
+
+            {columns.map((col) => (
+              <th key={col.key}>{col.label}</th>
+            ))}
             <th style={{ textAlign: "right" }}>Actions</th>
           </tr>
         </thead>
@@ -39,7 +43,15 @@ export const DataTable = ({
               <td>
                 <span className={styles.idBadge}>#{item.id}</span>
               </td>
-              <td className={styles.productName}>{item.name}</td>
+
+              {columns.map((col) => (
+                <td key={col.key} className={styles.productName}>
+                  {col.render ? col.render(item) : item[col.key]}
+
+                  {!col.render && col.key === "standard_weight" ? " kg" : ""}
+                </td>
+              ))}
+
               <td style={{ textAlign: "right" }}>
                 <Button
                   variant="outline"
@@ -72,7 +84,6 @@ export const DataTable = ({
         <div className={styles.empty}>No items found.</div>
       )}
 
-      {/* Блок пагінації */}
       {items.length > itemsPerPage && (
         <div
           style={{

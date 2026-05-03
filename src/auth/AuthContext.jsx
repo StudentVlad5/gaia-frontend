@@ -10,12 +10,33 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // const loadUser = async () => {
+  //   try {
+  //     const res = await api.post("/auth/refresh");
+
+  //     if (res.data) {
+  //       setUser(res.data.user || res.data);
+  //     }
+  //   } catch (e) {
+  //     console.error("Session refresh failed:", e.response?.data || e.message);
+  //     setUser(null);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const loadUser = async () => {
     try {
       const res = await api.post("/auth/refresh");
 
-      if (res.data) {
-        setUser(res.data.user || res.data);
+      const data = res.data?.data || res.data;
+
+      if (data?.user) {
+        setUser(data.user);
+      } else if (data?.id) {
+        setUser(data);
+      } else {
+        setUser(null);
       }
     } catch (e) {
       console.error("Session refresh failed:", e.response?.data || e.message);
@@ -24,7 +45,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     loadUser();
   }, []);

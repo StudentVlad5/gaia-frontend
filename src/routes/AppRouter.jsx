@@ -11,9 +11,12 @@ import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
 import UsersPage from "../pages/Auth/UsersPage";
 import WarehousePage from "../pages/Warehouse/WarehousePage";
+import PackageProductsPage from "../pages/PackageProductsPage/PackageProductsPage";
 import { AuthProvider } from "../auth/AuthContext";
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 import { AdminRoute } from "../auth/AdminRoute";
+import PackagingsPage from "../pages/PackagingsPage/PackagingsPage";
+import PackagingDashboard from "../pages/PackagingDashboard/PackagingDashboard";
 
 export default function AppRouter() {
   return (
@@ -31,9 +34,12 @@ export default function AppRouter() {
         >
           <Route path="/" element={<Dashboard />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/packaging-dashboard" element={<PackagingDashboard />} />
           <Route path="/warehouse" element={<WarehousePage />} />
 
           <Route element={<AdminRoute />}>
+            <Route path="/package-products" element={<PackageProductsPage />} />
+            <Route path="/package-packing" element={<PackagingsPage />} />
             <Route path="/users" element={<UsersPage />} />
             <Route path="/boxes" element={<BoxesPage />} />
             <Route path="/products" element={<ProductsPage />} />

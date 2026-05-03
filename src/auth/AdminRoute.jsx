@@ -6,7 +6,11 @@ export const AdminRoute = ({ children }) => {
 
   if (loading) return null;
 
-  if (!user || user.role !== "ADMIN") {
+  console.log("Current user in AdminRoute:", user);
+
+  const isAdmin = user && String(user.role).toUpperCase() === "ADMIN";
+
+  if (!isAdmin) {
     return <Navigate to="/" replace />;
   }
 
