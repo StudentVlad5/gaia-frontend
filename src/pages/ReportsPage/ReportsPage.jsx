@@ -9,6 +9,8 @@ import {
   Users,
   Package,
   TrendingUp,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 import styles from "./ReportsPage.module.css";
@@ -34,6 +36,8 @@ export default function ReportsPage() {
     summary: {},
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  const [expandedReceivers, setExpandedReceivers] = useState({});
 
   // Default to current year
   const [range, setRange] = useState({
@@ -85,6 +89,13 @@ export default function ReportsPage() {
   useEffect(() => {
     loadReports();
   }, []);
+
+  const toggleReceiver = (receiverName) => {
+    setExpandedReceivers((prev) => ({
+      ...prev,
+      [receiverName]: !prev[receiverName],
+    }));
+  };
 
   return (
     <div className={styles.container}>
@@ -175,77 +186,112 @@ export default function ReportsPage() {
             </tr>
           </thead>
           <tbody>
-            {data.receivers.map((receiver, rIdx) => (
-              <React.Fragment key={`rec-${rIdx}`}>
-                {/* Group Header: Receiver Name */}
-                <tr className={styles.receiverHeader}>
-                  <td colSpan="3">
-                    <div className={styles.flexAlignCenter}>
-                      <div className={styles.receiverIndicator}></div>
-                      {receiver.name}
-                    </div>
-                  </td>
-                </tr>
+            {data.receivers.map((receiver, rIdx) => {
+              const isExpanded = !!expandedReceivers[receiver.name];
 
-                {/* Sub-rows: Products for this receiver */}
-                {receiver.items &&
-                  receiver.items.map((item, iIdx) => (
-                    <tr key={`item-${iIdx}`} className={styles.productRow}>
-                      <td>{item.product_name}</td>
-                      <td>
-                        {item.total_boxes}
-                        <span className={styles.unitText}>pcs</span>
-                      </td>
-                      <td>
-                        {item.total_weight}
-                        <span className={styles.unitText}>kg</span>
-                      </td>
-                    </tr>
-                  ))}
+              const sortedItems = receiver.items
+                ? [...receiver.items].sort(
+                    (a, b) => b.total_weight - a.total_weight,
+                  )
+                : [];
 
-                {/* Fallback if no items array (flat structure) */}
-                {!receiver.items && (
-                  <tr className={styles.productRow}>
-                    <td>{receiver.product_name || "General Cargo"}</td>
-                    <td>
-                      {receiver.total_boxes}
-                      <span className={styles.unitText}>pcs</span>
-                    </td>
-                    <td>
-                      {receiver.total_weight}
-                      <span className={styles.unitText}>kg</span>
+              return (
+                <React.Fragment key={`rec-${rIdx}`}>
+                  {/* Group Header: Receiver Name */}
+                  <tr className={styles.receiverHeader}>
+                    <td colSpan="3">
+                      <div className={styles.receiverHeaderContent}>
+                        <div className={styles.receiverTitleWrapper}>
+                          <div className={styles.receiverIndicator}></div>
+                          <strong>{receiver.name}</strong>
+                        </div>
+                        <button
+                          onClick={() => toggleReceiver(receiver.name)}
+                          className={styles.toggleDetailsButton}
+                        >
+                          {isExpanded ? (
+                            <>
+                              Hide Products <ChevronUp size={16} />
+                            </>
+                          ) : (
+                            <>
+                              Show Products <ChevronDown size={16} />
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </td>
                   </tr>
-                )}
 
-                {/* Footer: Total for this receiver */}
-                <tr className={styles.totalRow}>
-                  <td className={styles.totalLabel}>
-                    Total for {receiver.name}
-                  </td>
-                  <td className={styles.totalValue}>
-                    <span className={styles.badge}>
-                      {receiver.total_boxes} Boxes
-                    </span>
-                  </td>
-                  <td className={styles.totalValue}>
-                    <span className={styles.weightHighlight}>
-                      {receiver.total_weight} kg
-                    </span>
-                  </td>
-                </tr>
+                  {/* Total Summary Row (Always Visible) */}
+                  <tr className={styles.receiverTotalRow}>
+                    <td className={styles.totalLabel}>Total Summary</td>
+                    <td className={styles.totalValue}>
+                      <span className={styles.badge}>
+                        {receiver.total_boxes} Boxes
+                      </span>
+                    </td>
+                    <td className={styles.totalValue}>
+                      <span className={styles.weightHighlight}>
+                        {receiver.total_weight} kg
+                      </span>
+                    </td>
+                  </tr>
 
-                {/* Spacer row */}
-                <tr className={styles.spacerRow}>
-                  <td colSpan="3"></td>
-                </tr>
-              </React.Fragment>
-            ))}
+                  {/* Detailed Product Rows (Visible only when expanded) */}
+                  {isExpanded && (
+                    <>
+                      {receiver.items &&
+                        sortedItems.map((item, iIdx) => (
+                          <tr
+                            key={`item-${iIdx}`}
+                            className={styles.productRow}
+                          >
+                            <td className={styles.productNameCell}>
+                              {item.product_name}
+                            </td>
+                            <td>
+                              {item.total_boxes}
+                              <span className={styles.unitText}>pcs</span>
+                            </td>
+                            <td>
+                              {item.total_weight}
+                              <span className={styles.unitText}>kg</span>
+                            </td>
+                          </tr>
+                        ))}
+
+                      {/* Fallback structure */}
+                      {!receiver.items && (
+                        <tr className={styles.productRow}>
+                          <td className={styles.productNameCell}>
+                            {receiver.product_name || "General Cargo"}
+                          </td>
+                          <td>
+                            {receiver.total_boxes}
+                            <span className={styles.unitText}>pcs</span>
+                          </td>
+                          <td>
+                            {receiver.total_weight}
+                            <span className={styles.unitText}>kg</span>
+                          </td>
+                        </tr>
+                      )}
+                    </>
+                  )}
+
+                  {/* Spacer Row */}
+                  <tr className={styles.spacerRow}>
+                    <td colSpan="3"></td>
+                  </tr>
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
-      {/* 1. DAILY SHIPMENT DYNAMICS */}
+      {/* DAILY SHIPMENT DYNAMICS */}
       <div className={styles.reportSection}>
         <div className={styles.sectionHeader}>
           <TrendingUp size={20} className="text-blue-600" />
@@ -280,7 +326,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* 2. PRODUCT STRUCTURE (Sorted by Weight) */}
+      {/* PRODUCT STRUCTURE (Sorted by Weight) */}
       <div className={styles.reportSection}>
         <div className={styles.sectionHeader}>
           <Package size={20} className="text-blue-600" />
@@ -291,8 +337,6 @@ export default function ReportsPage() {
           {data.products
             .sort((a, b) => Number(b.total_weight) - Number(a.total_weight))
             .map((prod, i) => {
-              // Виправлений розрахунок відсотка:
-              // (вага товару / загальна вага всіх товарів у поточному звіті) * 100
               const totalWeightAllProducts = data.products.reduce(
                 (acc, p) => acc + Number(p.total_weight),
                 0,

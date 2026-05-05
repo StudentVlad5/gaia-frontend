@@ -326,3 +326,47 @@
     align-items: stretch;
   }
 }
+
+.receiverHeaderContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.receiverTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggleDetailsButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #2563eb; /* Blue-600 */
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
+}
+
+.toggleDetailsButton:hover {
+  color: #1d4ed8; /* Darker blue on hover */
+}
+
+.receiverTotalRow {
+  background-color: #f8fafc;
+}
+
+.receiverTotalRow .totalLabel {
+  padding-left: 24px;
+}
+
+.productNameCell {
+  padding-left: 32px !important;
+  color: #4b5563; /* Gray-600 */
+}
