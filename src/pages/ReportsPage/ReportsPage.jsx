@@ -97,6 +97,11 @@ export default function ReportsPage() {
     }));
   };
 
+  const maxWeight = Math.max(
+    ...data.days.map((d) => Number(d.total_weight)),
+    1,
+  );
+
   return (
     <div className={styles.container}>
       {/* HEADER & QUICK FILTERS */}
@@ -300,21 +305,24 @@ export default function ReportsPage() {
 
         <div className={styles.chartWrapper}>
           {data.days.map((day, idx) => {
-            const maxWeight = Math.max(
-              ...data.days.map((d) => Number(d.total_weight)),
-            );
-            const heightPercent = (Number(day.total_weight) / maxWeight) * 100;
+            const weight = Number(day.total_weight);
+
+            {
+              /* 2. Обчислюємо відсоток */
+            }
+            const heightPercent = (weight / maxWeight) * 100;
             const { formatted, weekday } = getDayInfo(day.day);
 
             return (
               <div key={idx} className={styles.chartColumn}>
                 <div
                   className={styles.bar}
-                  style={{ height: `${heightPercent}%` }}
+                  style={{
+                    height: `${heightPercent}%`,
+                    minHeight: weight > 0 ? "4px" : "0", // Щоб дуже малі значення не зникали зовсім
+                  }}
                 >
-                  <span className={styles.barValue}>
-                    {Math.round(day.total_weight)}
-                  </span>
+                  <span className={styles.barValue}>{Math.round(weight)}</span>
                 </div>
                 <div className={styles.dayLabel}>
                   <span className={styles.dayName}>{weekday}</span>

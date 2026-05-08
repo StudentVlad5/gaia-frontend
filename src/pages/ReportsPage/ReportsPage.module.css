@@ -217,7 +217,7 @@
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  height: 250px;
+  height: 350px;
   overflow-x: auto;
   background: linear-gradient(to bottom, #ffffff, #fcfcfc);
 }
