@@ -31,6 +31,7 @@ export default function BoxesPage() {
   const [, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [receivers, setReceivers] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
 
   const [form, setForm] = useState({
     weight: "",
@@ -134,22 +135,42 @@ export default function BoxesPage() {
           />
           <div className={styles.formActions}>
             <Button
+              disabled={submitting}
               onClick={async () => {
-                editingId
-                  ? await updateBox(editingId, form)
-                  : await createBox(form);
-                setForm({
-                  weight: "",
-                  product_id: "",
-                  receiver_id: "",
-                  boxes_count: 1,
-                  comment: "",
-                });
-                setEditingId(null);
-                fetchData();
+                if (submitting) return;
+
+                try {
+                  setSubmitting(true);
+
+                  if (editingId) {
+                    await updateBox(editingId, form);
+                  } else {
+                    await createBox(form);
+                  }
+
+                  setForm({
+                    weight: "",
+                    product_id: "",
+                    receiver_id: "",
+                    boxes_count: 1,
+                    comment: "",
+                  });
+
+                  setEditingId(null);
+
+                  await fetchData();
+                } finally {
+                  setSubmitting(false);
+                }
               }}
             >
-              {editingId ? <Pencil size={14} /> : <Plus size={14} />}
+              {submitting ? (
+                "Saving..."
+              ) : editingId ? (
+                <Pencil size={14} />
+              ) : (
+                <Plus size={14} />
+              )}
             </Button>
           </div>
         </form>
