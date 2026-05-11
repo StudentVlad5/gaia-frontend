@@ -20,13 +20,15 @@ const CATEGORY_OPTIONS = [
   { id: "SPORT", name: "SPORT" },
   { id: "DR", name: "DR" },
   { id: "WOOL", name: "WOOL" },
-  { id: "BELT", name: "BELT" },
+  { id: "ACC", name: "ACC" },
   { id: "TROUS", name: "TROUS" },
   { id: "JACK", name: "JACK" },
+  { id: "FOOTWEAR", name: "FOOTWEAR" },
   { id: "OTHER", name: "OTHER" },
 ];
 
 const WEIGHT_OPTIONS = [
+  { id: 15, name: "15 kg" },
   { id: 20, name: "20 kg" },
   { id: 25, name: "25 kg" },
 ];
