@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { io } from "socket.io-client";
 import {
   Package,
@@ -42,12 +42,33 @@ export default function PackagingDashboard() {
     };
   }, [loadData]);
 
+  // Агрегація виконаних пакетів за продуктами
+  const completedSummary = useMemo(() => {
+    const completedList = dashboardData?.completed || [];
+
+    const aggregated = completedList.reduce((acc, curr) => {
+      const key = curr.product_name;
+      if (!acc[key]) {
+        acc[key] = {
+          product_name: curr.product_name,
+          category: curr.category,
+          count: 0,
+          total_weight: 0,
+        };
+      }
+      acc[key].count += 1;
+      acc[key].total_weight += Number(curr.actual_weight || 0);
+      return acc;
+    }, {});
+
+    return Object.values(aggregated);
+  }, [dashboardData?.completed]);
+
   if (loading && !dashboardData)
     return <div className={styles.loader}>Loading Analytics...</div>;
 
   const summary = dashboardData?.summary || {};
   const today = dashboardData?.today || [];
-  const completed = dashboardData?.completed || [];
   const issuesList = dashboardData?.issues?.list || [];
 
   // Розрахунок середньої ваги пакета
@@ -172,25 +193,18 @@ export default function PackagingDashboard() {
                 <tr>
                   <th>Product</th>
                   <th>Category</th>
-                  <th>Packed At</th>
-                  <th className={styles.num}>Final Weight</th>
+                  <th className={styles.num}>Count</th>
+                  <th className={styles.num}>Total Weight</th>
                 </tr>
               </thead>
               <tbody>
-                {completed.map((p) => (
-                  <tr key={p.id}>
+                {completedSummary.map((p) => (
+                  <tr key={p.product_name}>
                     <td className={styles.bold}>{p.product_name}</td>
                     <td>{p.category}</td>
-                    <td className={styles.dateCell}>
-                      {p.packed_at
-                        ? new Date(p.packed_at).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
-                        : "—"}
-                    </td>
+                    <td className={styles.num}>{p.count} pcs</td>
                     <td className={`${styles.num} ${styles.successText}`}>
-                      {p.actual_weight} kg
+                      {p.total_weight.toFixed(2)} kg
                     </td>
                   </tr>
                 ))}

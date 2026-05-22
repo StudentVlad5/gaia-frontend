@@ -17,6 +17,7 @@ import {
   createPackaging,
   updatePackaging,
   deletePackaging,
+  exportPackagings,
 } from "../../api/packagings";
 import { api } from "../../api/client";
 import { Button } from "../../components/UI/Button/Button";
@@ -31,6 +32,7 @@ export default function PackagingsPage() {
   const [, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [factories, setFactories] = useState([]);
+  const [exporting, setExporting] = useState(false);
 
   const [form, setForm] = useState({
     product_id: "",
@@ -126,26 +128,28 @@ export default function PackagingsPage() {
     }
   };
 
-  //   const handleExport = async () => {
-  //     try {
-  //       const res = await api.get("/packagings/export", {
-  //         params: filters,
-  //         responseType: "blob",
-  //       });
-  //       const url = window.URL.createObjectURL(new Blob([res.data]));
-  //       const link = document.createElement("a");
-  //       link.href = url;
-  //       link.setAttribute(
-  //         "download",
-  //         `packagings_${new Date().toISOString().split("T")[0]}.xlsx`,
-  //       );
-  //       document.body.appendChild(link);
-  //       link.click();
-  //       link.remove();
-  //     } catch (e) {
-  //       alert(`Export failed: ${e.response?.data?.message || e.message}`);
-  //     }
-  //   };
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      const response = await exportPackagings(filters);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `packagings_report_${new Date().toISOString().split("T")[0]}.xlsx`,
+      );
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Export failed", error);
+      alert("Failed to export data. Please try again.");
+    } finally {
+      setExporting(false);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -250,9 +254,9 @@ export default function PackagingsPage() {
           >
             <X size={14} />
           </Button>
-          {/* <Button variant="outline" onClick={handleExport}>
+          <Button variant="outline" onClick={handleExport} disabled={exporting}>
             <Download size={14} /> Excel
-          </Button> */}
+          </Button>
         </div>
       </div>
 
