@@ -1,0 +1,325 @@
+/* ГОЛОВНИЙ ЖУРНАЛ */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+}
+
+.titleGroup h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+}
+
+/* ФІЛЬТРИ */
+.filterSection {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.selectInput {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  background-color: white;
+  outline: none;
+  min-width: 160px;
+}
+
+.selectInput:focus {
+  border-color: #3b82f6;
+}
+
+/* ГОЛОВНА ТАБЛИЦЯ ЖУРНАЛУ */
+.tableWrapper {
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #334155;
+}
+
+.reportTable th {
+  background: #f1f5f9;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #cbd5e1;
+  color: #475569;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.reportTable td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.reportTable tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.dateCell {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.num {
+  text-align: right;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.actionsCol {
+  width: 90px;
+  text-align: right;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #94a3b8;
+  transition: color 0.2s;
+}
+
+.iconBtn:hover {
+  color: #3b82f6;
+}
+.iconBtn.danger:hover {
+  color: #ef4444;
+}
+
+/* ПАГІНАЦІЯ */
+.paginationBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #cbd5e1;
+}
+
+.pageStats {
+  font-size: 12px;
+  color: #64748b;
+}
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pageNumber {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: center;
+}
+
+/* БЕЙДЖІ СТАТУСІВ */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.badge.active {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+.badge.completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+.badge.cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* --- МОДАЛЬНЕ ВІКНО ФОРМИ --- */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 750px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.closeModalBtn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.closeModalBtn:hover {
+  color: #475569;
+}
+
+.modalForm {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.metaFormGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inputGroup label,
+.innerProductSelector label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.innerProductSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ТАБЛИЦЯ СПЕЦИФІКАЦІЇ В МОДАЛЦІ */
+.modalTableWrapper {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.modalTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.modalTable th {
+  background: #f8fafc;
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.modalTable td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.modalTable td input {
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.modalTotalRow {
+  background: #f1f5f9;
+  font-weight: 700;
+}
+
+.removeProductBtn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.removeProductBtn:hover {
+  color: #ef4444;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 14px;
+  margin-top: 6px;
+}

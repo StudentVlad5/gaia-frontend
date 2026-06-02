@@ -1,0 +1,341 @@
+.container {
+  padding: 14px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 14px;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.liveBadge {
+  background-color: #dcfce7;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  animation: pulse 2s infinite;
+}
+
+.offlineBadge {
+  background-color: #e2e8f0;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* БЛОК ЗАМОВЛЕННЯ */
+.orderBlock {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.orderHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+
+.metaIcon {
+  color: #94a3b8;
+  margin-right: 6px;
+}
+
+.metaLabel {
+  color: #64748b;
+  margin-right: 4px;
+  font-weight: 500;
+}
+
+.receiverBadge {
+  font-weight: 700;
+  color: #1e3a8a;
+  background: #eff6ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.dateRange {
+  font-weight: 600;
+  color: #334155;
+}
+
+.tableResponsive {
+  overflow-x: auto;
+  display: block;
+}
+
+.monitorTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 12.5px;
+}
+
+.monitorTable th {
+  padding: 6px 8px;
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #cbd5e1;
+}
+
+.monitorTable td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.black {
+  color: #0f172a;
+}
+.green {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+.red {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.fontBold {
+  font-weight: 600;
+}
+.num {
+  text-align: right;
+  font-family: monospace;
+  font-size: 13px;
+}
+.factCell {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.progressTextWrapper {
+  display: inline-flex;
+  gap: 4px;
+  font-size: 11px;
+  color: #334155;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.separator {
+  color: #cbd5e1;
+  padding: 0 1px;
+}
+
+.greenText,
+.redText,
+.blackText {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.greenText {
+  color: #16a34a;
+}
+.redText {
+  color: #dc2626;
+}
+.blackText {
+  color: #475569;
+}
+
+.totalRow {
+  background: #e2e8f0 !important;
+  font-weight: 700;
+  border-top: 2px solid #cbd5e1;
+}
+.totalRow td {
+  padding: 8px 8px !important;
+  color: #0f172a !important;
+}
+
+.mobileCardsGrid {
+  display: none;
+}
+
+/* Мобільні пристрої (до 767px) */
+@media (max-width: 767px) {
+  .tableResponsive {
+    display: none;
+  }
+  .mobileCardsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mobileCard {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  .mobileCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .blackDot {
+    background-color: #0f172a;
+  }
+  .greenDot {
+    background-color: #22c55e;
+  }
+  .redDot {
+    background-color: #ef4444;
+  }
+
+  .blackCard {
+    border-left: 4px solid #475569;
+  }
+  .greenCard {
+    border-left: 4px solid #22c55e;
+    background-color: #f0fdf4;
+  }
+  .redCard {
+    border-left: 4px solid #ef4444;
+    background-color: #fef2f2;
+  }
+
+  .mobileCardBody {
+    padding: 6px 0;
+    font-size: 12px;
+  }
+  .mobileGridRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+  }
+  .mobileGridRow span {
+    color: #64748b;
+  }
+
+  .mobileCardFooter {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #475569;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 4px;
+    border-radius: 4px;
+  }
+
+  .mobileAlert {
+    color: #dc2626;
+    font-weight: 700;
+  }
+
+  .mobileTotalCard {
+    background: #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 13px;
+    border: 1px solid #cbd5e1;
+  }
+}
+
+/* Планшети (від 768px до 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .monitorTable {
+    font-size: 11.5px;
+  }
+  .monitorTable td,
+  .monitorTable th {
+    padding: 5px 6px;
+  }
+  .progressTextWrapper {
+    padding: 2px 4px;
+    font-size: 10px;
+  }
+}
+
+/* Системні класи лоадера */
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 12px;
+  color: #64748b;
+  font-weight: 500;
+  background: #f8fafc;
+}
+
+.spinner {
+  color: #3b82f6;
+}
+
+.retryBtn {
+  margin-top: 8px;
+  padding: 6px 16px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #334155;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

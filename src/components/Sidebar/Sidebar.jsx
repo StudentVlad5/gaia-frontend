@@ -54,6 +54,22 @@ const menuItems = [
     group: "Logistics",
   },
 
+  // ГРУПА: ORDERS
+  {
+    path: "/order-monitor",
+    label: "Order Monitor",
+    icon: Activity,
+    roles: ["USER", "ADMIN"],
+    group: "Orders",
+  },
+  {
+    path: "/order-form",
+    label: "Order Form",
+    icon: Package,
+    roles: ["ADMIN"],
+    group: "Orders",
+  },
+
   // ГРУПА: PACKAGING
   {
     path: "/packaging-dashboard",
@@ -105,7 +121,7 @@ export default function Sidebar({ collapsed, setCollapsed }) {
   });
 
   // Групування елементів
-  const groups = ["Logistics", "Packaging", "System"];
+  const groups = ["Logistics", "Orders", "Packaging", "System"];
 
   return (
     <aside className={styles.sidebar} style={{ width: collapsed ? 70 : 240 }}>

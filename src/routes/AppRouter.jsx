@@ -16,7 +16,9 @@ import { AuthProvider } from "../auth/AuthContext";
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 import { AdminRoute } from "../auth/AdminRoute";
 import PackagingsPage from "../pages/PackagingsPage/PackagingsPage";
+import OrderFormPage from "../pages/OrderFormPage/OrderFormPage";
 import PackagingDashboard from "../pages/PackagingDashboard/PackagingDashboard";
+import OrderMonitorPage from "../pages/OrderMonitorPage/OrderMonitorPage";
 
 export default function AppRouter() {
   return (
@@ -36,6 +38,8 @@ export default function AppRouter() {
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/packaging-dashboard" element={<PackagingDashboard />} />
           <Route path="/warehouse" element={<WarehousePage />} />
+          <Route path="/order-form" element={<OrderFormPage />} />
+          <Route path="/order-monitor" element={<OrderMonitorPage />} />
 
           <Route element={<AdminRoute />}>
             <Route path="/package-products" element={<PackageProductsPage />} />
