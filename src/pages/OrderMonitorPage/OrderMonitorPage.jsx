@@ -12,7 +12,7 @@ import styles from "./OrderMonitorPage.module.css";
 const socket = io("https://gaia-server-gayu.onrender.com");
 
 const formatDate = (dateString) => {
-  if (!dateString) return "—";
+  if (!dateString) return "-";
   const date = new Date(dateString);
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -88,7 +88,9 @@ export default function OrderMonitorPage() {
 
         if (item.is_unexpected || plannedBoxes === 0) {
           statusColor = "red";
-          alertMessage = "Not in plan!";
+          alertMessage = "⚠️ Not in active order plan!";
+          boxesPercent = 0;
+          weightPercent = 0;
         } else if (packedBoxes > plannedBoxes) {
           statusColor = "red";
           alertMessage = `Overlimit! +${packedBoxes - plannedBoxes} pcs`;
@@ -148,7 +150,7 @@ export default function OrderMonitorPage() {
       <div className={styles.container}>
         <header className={styles.header}>
           <h2> Orders Monitor (LIVE)</h2>
-          <span className={styles.offlineBadge}>● No Active Plans</span>
+          <span className={styles.offlineBadge}>No Active Plans</span>
         </header>
         <div className={styles.emptyState}>
           <p>
@@ -204,7 +206,7 @@ export default function OrderMonitorPage() {
                 <Calendar size={16} className={styles.metaIcon} />
                 <span className={styles.metaLabel}>Period:</span>
                 <span className={styles.dateRange}>
-                  {formatDate(list.date_start)} — {formatDate(list.date_end)}
+                  {formatDate(list.date_start)} - {formatDate(list.date_end)}
                 </span>
               </div>
             </div>
