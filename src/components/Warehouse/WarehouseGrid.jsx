@@ -5,14 +5,17 @@ import {
   useDroppable,
   DragOverlay,
 } from "@dnd-kit/core";
-import { motion, AnimatePresence } from "framer-motion"; // 'motion' is used below in motion.div
+import { AnimatePresence } from "framer-motion";
 import { SearchableSelect } from "../../components/UI/SearchableSelect/SearchableSelect";
 import * as api from "../../api/containers";
 import styles from "./Warehouse.module.css";
 import { Plus, Settings2, Trash2, Box } from "lucide-react";
 import io from "socket.io-client";
 
-const socket = io("https://gaia-server-gayu.onrender.com");
+const socket = io({
+  withCredentials: true,
+  transports: ["websocket", "polling"],
+});
 
 const CATEGORY_GROUPS = {
   blue: ["trausers", "jackets"],
