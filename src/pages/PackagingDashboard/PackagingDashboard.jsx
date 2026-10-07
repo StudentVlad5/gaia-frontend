@@ -12,7 +12,10 @@ import {
 import { getDashboard } from "../../api/dashboard";
 import styles from "./PackagingDashboard.module.css";
 
-const socket = io("https://gaia-server-gayu.onrender.com");
+const socket = io({
+  withCredentials: true,
+  transports: ["websocket", "polling"],
+});
 
 export default function PackagingDashboard() {
   const [dashboardData, setDashboardData] = useState(null);

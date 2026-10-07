@@ -9,7 +9,10 @@ import {
 import { io } from "socket.io-client";
 import styles from "./OrderMonitorPage.module.css";
 
-const socket = io("https://gaia-server-gayu.onrender.com");
+const socket = io({
+  withCredentials: true,
+  transports: ["websocket", "polling"],
+});
 
 const formatDate = (dateString) => {
   if (!dateString) return "-";

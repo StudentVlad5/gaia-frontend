@@ -13,7 +13,10 @@ import {
 
 import styles from "./Dashboard.module.css";
 
-const socket = io("https://gaia-server-gayu.onrender.com");
+const socket = io({
+  withCredentials: true,
+  transports: ["websocket", "polling"],
+});
 const notificationSound =
   typeof Audio !== "undefined" ? new Audio("/notification.mp3") : null;
 
